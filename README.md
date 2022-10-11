@@ -25,21 +25,35 @@ Usage <a name="usage"></a>
 public final class ExampleCommand extends CanyonCommand {
     
     public ExampleCommand() {
-        super(String name, String... aliases);
-        this.setPermission(String permission);
-        this.setConsoleOnly(boolean consoleOnly); 
+        super("example", "example-alias", "infinitely-many-aliases");
+        this.setPermission("example.permission"); // Don't set for no permission
     }
-   
     
     @Override
-    public CommandResult execute(@NotNull CommandSender sender, @NotNull String[] args) {
-        
-        // Command results are a simple way of defining errors and success messages in your commands
-        return CommandResult.Success(); // Would return a default message to the sender
-        return CommandResult.Error("Error message"); // Would return an error message to the sender
-        return CommandResult.Success("Success message"); // Would return a success message to the sender
-        return CommandResult.Error() // Returns the default error message to the sender
-        
+    public void runPlayer(@NotNull Player player, String[] args) {
+        player.sendMessage("Hello, " + player.getName());
+    }
+    
+    @Override
+    public void runConsole(@NotNull CommandSender sender, String[] args) {
+        sender.sendMessage("Hello, Console");
+    }
+    
+}
+```
+```kotlin
+class ExampleCommand : CanyonCommand("example", "example-alias", "infinitely-many-aliases") {
+    
+    init {
+        this.permission = "example.permission" // Don't set for no permission
+    }
+    
+    override fun runPlayer(player: Player, args: Array<String>) {
+        player.sendMessage("Hello, ${player.name}")
+    }
+    
+    override fun runConsole(sender: CommandSender, args: Array<String>) {
+        sender.sendMessage("Hello, Console")
     }
     
 }
