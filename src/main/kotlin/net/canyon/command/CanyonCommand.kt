@@ -6,21 +6,22 @@ import org.bukkit.entity.Player
 
 abstract class CanyonCommand(val name: String, vararg aliases: String) {
 
-    private val aliases = aliases.toSet()
-    private var permission = ""
+    val aliases = aliases.toList()
+    var permission: String = ""
+    var usage: String = ""
+    var description: String = ""
 
-    fun setPermission(permission: String) {
-        this.permission = permission
-    }
 
-    abstract fun runPlayer(sender: Player, args: Array<String>): CommandResult
-    abstract fun runConsole(sender: ConsoleCommandSender, args: Array<String>): CommandResult
+    abstract fun runPlayer(sender: Player, args: Array<out String>): CommandResult
+    abstract fun runConsole(sender: ConsoleCommandSender, args: Array<out String>): CommandResult
 
-    fun process(sender: CommandSender, args: Array<String>): CommandResult {
+    fun process(sender: CommandSender, args: Array<out String>): CommandResult {
         if (permission.isEmpty() || sender.hasPermission(permission)) {
             if (sender is Player) return runPlayer(sender, args)
             else if (sender is ConsoleCommandSender) return runConsole(sender, args)
         }
         return CommandResult.NoPermission()
     }
+
+
 }
