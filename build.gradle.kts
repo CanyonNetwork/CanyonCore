@@ -11,6 +11,10 @@ repositories {
     mavenCentral()
     maven("https://oss.sonatype.org/content/repositories/snapshots/")
     maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
+    maven {
+        name = "codemc-snapshots"
+        url = uri("https://repo.codemc.io/repository/maven-snapshots/")
+    }
 }
 
 dependencies {
@@ -19,7 +23,7 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT")
     implementation("org.spigotmc:spigot:1.19.1-R0.1-SNAPSHOT")
 
-    implementation("io.github.retrooper.packetevents:packetevents:2.0.0-SNAPSHOT")
+    implementation("com.github.retrooper.packetevents:spigot:2.0.0-SNAPSHOT")
 
 }
 

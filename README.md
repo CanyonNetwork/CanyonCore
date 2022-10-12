@@ -40,6 +40,9 @@ public final class ExampleCommand extends CanyonCommand {
     }
     
 }
+
+// Registering the command
+CanyonCore.getCommandManager().register(new ExampleCommand());
 ```
 ```kotlin
 class ExampleCommand : CanyonCommand("example", "example-alias", "infinitely-many-aliases") {
@@ -57,4 +60,49 @@ class ExampleCommand : CanyonCommand("example", "example-alias", "infinitely-man
     }
     
 }
+
+// Registering the command
+CanyonCore.commandManager.register(ExampleCommand())
+```
+- Packet API
+    Canyon Core features a complete packet abstraction utilizing PacketEvents 2.0. Canyon Core's async packet listeners allow for handling packet outside of the netty thread on a completely separate thread . This calls for asyncronous design to be kept in mind
+```java
+public final class ExamplePacketReceiveListener implements AsyncPacketReceiveListener {
+    
+    @Override 
+    public void accept(final PacketReceiveEvent event) {
+        event.getUser().sendMessage("Hello, " + event.getUser().getName());
+    }
+}
+
+public final class ExamplePacketSendListener implements AsyncPacketSendListener {
+    
+    @Override 
+    public void accept(final PacketSendEvent event) {
+        event.getUser().sendMessage("Hello, " + event.getUser().getName());
+    }
+}
+
+// Registering the listeners
+CanyonCore.getPacketManager().addListener(new ExamplePacketReceiveListener());
+CanyonCore.getPacketManager().addListener(new ExamplePacketSendListener());
+```
+```kotlin
+class ExamplePacketReceiveListener : AsyncPacketReceiveListener {
+    
+    override fun accept(event: PacketReceiveEvent) {
+        event.user.sendMessage("Hello, ${event.user.name}")
+    }
+}
+
+class ExamplePacketSendListener : AsyncPacketSendListener {
+    
+    override fun accept(event: PacketSendEvent) {
+        event.user.sendMessage("Hello, ${event.user.name}")
+    }
+}
+
+// Registering the listeners
+CanyonCore.packetManager.addListener(ExamplePacketReceiveListener())
+CanyonCore.packetManager.addListener(ExamplePacketSendListener())
 ```
