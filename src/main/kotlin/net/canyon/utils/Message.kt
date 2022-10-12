@@ -2,7 +2,7 @@ package net.canyon.utils
 
 import net.kyori.adventure.text.minimessage.MiniMessage
 
-private sealed class MessageContainer {
+sealed class MessageContainer {
 
     companion object {
         private val messages = mutableMapOf<String, String>()
@@ -18,6 +18,7 @@ private sealed class MessageContainer {
 
         fun getRawMessage(key: String) = messages[key]
         fun get(key: String) = minimessage.deserialize(messages[key] ?: "<red>Unknown Input")
+        fun deserialize(message: String) = minimessage.deserialize(message)
     }
 
 }

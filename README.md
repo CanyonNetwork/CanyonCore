@@ -86,7 +86,11 @@ public final class ExamplePacketSendListener implements AsyncPacketSendListener 
 // Registering the listeners
 CanyonCore.getPacketManager().addListener(new ExamplePacketReceiveListener());
 CanyonCore.getPacketManager().addListener(new ExamplePacketSendListener());
+
+// Sending asyncronous titles
+CanyonCore.getPacketManager().sendTitle(player, "Hello", "World", 10, 20, 10);
 ```
+``
 ```kotlin
 class ExamplePacketReceiveListener : AsyncPacketReceiveListener {
     
@@ -105,4 +109,49 @@ class ExamplePacketSendListener : AsyncPacketSendListener {
 // Registering the listeners
 CanyonCore.packetManager.addListener(ExamplePacketReceiveListener())
 CanyonCore.packetManager.addListener(ExamplePacketSendListener())
+
+// Sending asyncronous titles
+CanyonCore.packetManager.sendTitle(player, "Hello", "World", 10, 20, 10)
+```
+
+- GUI API
+    CanyonCore has a simple yet powerful GUI API for creating GUI Inventories. The API is designed to be as simple as possible, while still being powerful enough to create complex GUIs
+```java
+public final class ExampleGUI extends GUIInventory {
+
+    public ExampleGUI() {
+        super(InventoryType.ANVIL, "Example GUI");
+        super(4, "Example GUI"); // For chest inventories, use this constructor. 4 here is the amount of rows
+    }
+
+    @Override
+    public void setContents() {
+        ItemStack exampleItem = new ItemStack(Material.DIAMOND);
+        setItem(0, exampleItem); // TODO: create a method to define actions here
+    }
+
+    @Override
+    public void onAction(InventoryAction action, Player player, ItemStack item, int slot) {
+        player.sendMessage("You clicked on slot " + slot);
+    }
+}
+// After this simply instantiate of cache your gui and call GUIInventory#display(Player)
+```
+```kotlin
+class ExampleGUI : GUIInventory(InventoryType.ANVIL, "Example GUI") {
+    
+    init {
+        super(4, "Example GUI") // For chest inventories, use this constructor. 4 here is the amount of rows
+    }
+
+    override fun setContents() {
+        val exampleItem = ItemStack(Material.DIAMOND)
+        setItem(0, exampleItem) // TODO: create a method to define actions here
+    }
+
+    override fun onAction(action: InventoryAction, player: Player, item: ItemStack, slot: Int) {
+        player.sendMessage("You clicked on slot $slot")
+    }
+}
+// After this simply instantiate of cache your gui and call GUIInventory#display(Player)
 ```
